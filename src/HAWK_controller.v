@@ -11,12 +11,11 @@
 
 module HAWK_controller(
     input clk, YP, NS, reset,
-    input count,
-    output reg YL, RL, W, DNW, clr_count, inc_count
+    input wire [3:0] count,
+    output reg YL, RL, W, DNW, clr_count, inc_count,
+    output reg [3:0] present_state,
+    output reg [3:0] next_state
     );
-    
-    reg [3:0] present_state;
-    reg [3:0] next_state;
     
     parameter s0 = 4'h0,
     s1 = 4'h1,
@@ -41,7 +40,7 @@ module HAWK_controller(
         present_state <= next_state;
     
     //define next state 
-    always @(present_state or YP or NS or count)
+    always @(*)
         case(present_state)
             s0: if (YP) next_state = s1; else next_state = s0;
             s1: next_state = s2;

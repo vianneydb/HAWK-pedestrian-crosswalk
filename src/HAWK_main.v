@@ -11,13 +11,29 @@
 
 module HAWK_main(
     input clk, YP, NS, reset,
-    output YL, RL, W, DNW, clr_count, inc_count,
-    output [3:0] present_state, next_state
-    );
-    
-    wire count;
-    
-    HAWK_controller C1(clk, YP, NS, count, reset, YL, RL, W, DNW, clr_count, inc_count, present_state, next_state);
-    HAWK_datapath D1(clk, clr_count, inc_count, count);
-    
-endmodule
+    output YL, RL, W, DNW,
+    output [3:0] present_state
+);
+
+    wire clr_count, inc_count;
+    wire [3:0] count;
+    wire [3:0] next_state;
+
+HAWK_controller C1(.clk(clk),
+    .YP(YP),
+    .NS(NS),
+    .count(count),
+    .reset(reset),
+    .YL(YL),
+    .RL(RL),
+    .W(W),
+    .DNW(DNW),
+    .clr_count(clr_count),
+    .inc_count(inc_count),
+    .present_state(present_state),
+    .next_state(next_state)
+);
+
+HAWK_datapath D1(.clk(clk), .clr_count(clr_count), .inc_count(inc_count), .count(count));
+
+endmodule 
